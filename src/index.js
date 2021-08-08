@@ -4,9 +4,13 @@ import "./index.css";
 import Routes from "./Routes";
 import reportWebVitals from "./reportWebVitals";
 
+import { NotesProvider } from "./contexts/NotesContext";
+
 ReactDOM.render(
   <React.StrictMode>
-    <Routes />
+    <NotesProvider>
+      <Routes />
+    </NotesProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
