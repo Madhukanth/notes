@@ -10,7 +10,7 @@ import NotesCard from "../components/common/NotesCard";
 function NotesList() {
   const [addModalOpen, setModalOpen] = useState(false);
   const [addTagModalOpen, setTagModalOpen] = useState(false);
-  const { tags, addNote, getTagByID, getNotesByTag, addTag } =
+  const { tags, addNote, getTagByID, getNotesByTag, addTag, deleteNote } =
     useContext(NotesContext);
 
   const { id } = useParams();
@@ -45,7 +45,7 @@ function NotesList() {
       <div className="h-full w-full-without-sidebar ">
         <div className="h-14 w-full shadow-md flex justify-center items-center">
           <input
-            className="w-full max-w-lg pt-1 pb-1 pl-2 pr-2 border-gray-300 border-solid border-2 rounded-md focus:outline-none"
+            className="w-full max-w-lg ml-2 mr-2 pt-1 pb-1 pl-2 pr-2 border-gray-300 border-solid border-2 rounded-md focus:outline-none"
             placeholder="Search"
             onKeyDown={handleEnter}
           />
@@ -77,7 +77,12 @@ function NotesList() {
 
           <div className="flex flex-wrap w-full overflow-y-scroll overflow-x-hidden max-h-full-without-header-tags mt-2">
             {notes.map((note) => (
-              <NotesCard key={note.id} {...note} tag={getTagByID(note.tag)} />
+              <NotesCard
+                key={note.id}
+                note={note}
+                tag={getTagByID(note.tag)}
+                handleDelete={deleteNote}
+              />
             ))}
           </div>
         </div>
