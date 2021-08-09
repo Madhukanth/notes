@@ -67,7 +67,7 @@ export const NotesProvider = (props) => {
     setNotes((data) =>
       data.map((note) => {
         if (note.id !== id) return note;
-        return { ...updatedNote, id: note.id };
+        return { ...updatedNote, id: note.id, modifiedAt: new Date() };
       })
     );
   };
