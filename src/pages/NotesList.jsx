@@ -5,13 +5,24 @@ import { NotesContext } from "../contexts/NotesContext";
 import Sidebar from "../components/common/Sidebar";
 import AddNote from "../components/common/AddNote";
 import AddTag from "../components/common/AddTag";
+import EditNote from "../components/common/EditNote";
 import NotesCard from "../components/common/NotesCard";
 
 function NotesList() {
   const [addModalOpen, setModalOpen] = useState(false);
   const [addTagModalOpen, setTagModalOpen] = useState(false);
-  const { tags, addNote, getTagByID, getNotesByTag, addTag, deleteNote } =
-    useContext(NotesContext);
+  const [selectedNote, setSelectedNote] = useState(null);
+  const {
+    tags,
+    addNote,
+    editNote,
+    getNoteByID,
+    getTagByID,
+    getNotesByTag,
+    addTag,
+    deleteNote,
+    deleteTag,
+  } = useContext(NotesContext);
 
   const { id } = useParams();
 
@@ -34,7 +45,11 @@ function NotesList() {
 
   return (
     <div className="w-screen h-screen flex">
-      <Sidebar toggleTagAddModal={toggleTagAddModal} tags={tags} />
+      <Sidebar
+        toggleTagAddModal={toggleTagAddModal}
+        tags={tags}
+        handleDelete={deleteTag}
+      />
 
       <AddTag
         open={addTagModalOpen}
@@ -81,9 +96,24 @@ function NotesList() {
                 key={note.id}
                 note={note}
                 tag={getTagByID(note.tag)}
+                handleEdit={() => {
+                  setSelectedNote(note.id);
+                }}
                 handleDelete={deleteNote}
               />
             ))}
+
+            {selectedNote !== null && (
+              <EditNote
+                open={selectedNote !== null}
+                tags={tags}
+                handleCancel={() => {
+                  setSelectedNote(null);
+                }}
+                note={getNoteByID(selectedNote)}
+                handleUpdate={editNote}
+              />
+            )}
           </div>
         </div>
       </div>

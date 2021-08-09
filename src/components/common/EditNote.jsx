@@ -3,7 +3,7 @@ import Modal from "react-modal";
 
 function EditNote({ open, handleCancel, tags, handleUpdate, note }) {
   const { handleSubmit, reset, control } = useForm({
-    defaultValues: { note },
+    defaultValues: note,
   });
 
   const onSubmit = (data) => {

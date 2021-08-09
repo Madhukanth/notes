@@ -11,7 +11,17 @@ function AddTag({ open, handleCancel, handleAdd }) {
   });
 
   const onSubmit = (data) => {
-    handleAdd(data);
+    const error = handleAdd(data);
+    if (error) {
+      alert(error);
+      return;
+    }
+
+    reset();
+    handleCancel();
+  };
+
+  const onCancel = () => {
     reset();
     handleCancel();
   };
@@ -91,7 +101,7 @@ function AddTag({ open, handleCancel, handleAdd }) {
           <button
             className="text-primary focus:outline-none"
             type="button"
-            onClick={handleCancel}
+            onClick={onCancel}
           >
             Cancel
           </button>

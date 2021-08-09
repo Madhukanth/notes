@@ -12,6 +12,11 @@ function AddNote({ open, handleCancel, tags, handleAdd }) {
     handleCancel();
   };
 
+  const onCancel = () => {
+    reset();
+    handleCancel();
+  };
+
   return (
     <Modal
       appElement={document.getElementById("root")}
@@ -79,7 +84,7 @@ function AddNote({ open, handleCancel, tags, handleAdd }) {
         <div className="flex items-center justify-end">
           <button
             className="text-primary focus:outline-none"
-            onClick={handleCancel}
+            onClick={onCancel}
             type="button"
           >
             Cancel

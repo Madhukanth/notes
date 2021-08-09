@@ -1,7 +1,7 @@
 import DeleteIcon from "../../assets/delete.png";
 import EditIcon from "../../assets/edit.png";
 
-const NotesCard = ({ note, tag, handleDelete }) => {
+const NotesCard = ({ note, tag, handleDelete, handleEdit }) => {
   const deleteNote = () => {
     handleDelete(note.id);
   };
@@ -16,7 +16,7 @@ const NotesCard = ({ note, tag, handleDelete }) => {
         </div>
 
         <div>
-          <button title="Edit" className="h-4 w-4 mr-3" onClick={() => {}}>
+          <button title="Edit" className="h-4 w-4 mr-3" onClick={handleEdit}>
             <img alt="delete" src={EditIcon} />
           </button>
 

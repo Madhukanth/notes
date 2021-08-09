@@ -7,6 +7,7 @@ export const NotesContext = createContext({
   addNote: () => {},
   editNote: () => {},
   deleteNote: () => {},
+  getNoteByID: () => {},
   getNotesByTag: () => {},
 
   // Tags
@@ -39,6 +40,10 @@ export const NotesProvider = (props) => {
 
   const deleteNote = (id) => {
     setNotes((data) => data.filter((note) => note.id !== id));
+  };
+
+  const getNoteByID = (id) => {
+    return notes.find((note) => note.id === id);
   };
 
   const getNotesByTag = (tagID = null) => {
@@ -76,6 +81,13 @@ export const NotesProvider = (props) => {
   ]);
 
   const addTag = (newTag) => {
+    const tagAlreadyExist = tags.find(
+      (tag) => tag.title.toLowerCase() === newTag.title.toLowerCase()
+    );
+    if (tagAlreadyExist) {
+      return `A tag with title ${newTag.title} already exists`;
+    }
+
     setTags((data) => [...data, { ...newTag, id: v4() }]);
   };
 
@@ -104,6 +116,7 @@ export const NotesProvider = (props) => {
         addNote,
         editNote,
         deleteNote,
+        getNoteByID,
         getNotesByTag,
 
         // Tags
