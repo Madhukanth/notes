@@ -61,7 +61,10 @@ const Sidebar = ({ toggleTagAddModal, tags, handleDelete }) => {
 
       {editing &&
         tags.map((tag) => (
-          <div className="text-white flex items-center justify-between p-3">
+          <div
+            key={tag.id}
+            className="text-white flex items-center justify-between p-3"
+          >
             <div className="flex items-center">
               <div
                 className={`h-3 w-3 border-solid border-white border-2 rounded-full bg-${tag.color}-500`}

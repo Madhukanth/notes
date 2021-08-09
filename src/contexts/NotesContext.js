@@ -8,6 +8,7 @@ export const NotesContext = createContext({
   editNote: () => {},
   deleteNote: () => {},
   getNoteByID: () => {},
+  searchNotes: () => {},
   getNotesByTag: () => {},
 
   // Tags
@@ -50,6 +51,16 @@ export const NotesProvider = (props) => {
     if (!tagID) return notes;
 
     return notes.filter((note) => note.tag === tagID);
+  };
+
+  const searchNotes = (text) => {
+    const res = [];
+    for (const note of notes) {
+      if (note.title.includes(text) || note.description.includes(text)) {
+        res.push(note);
+      }
+    }
+    return res;
   };
 
   // Tags
@@ -102,6 +113,15 @@ export const NotesProvider = (props) => {
 
   const deleteTag = (id) => {
     setTags((data) => data.filter((tag) => tag.id !== id));
+
+    // Marking notes with deleted tag to none tag
+    const noneTag = tags.find((tag) => tag.title === "None");
+    setNotes((data) =>
+      data.map((note) => {
+        if (note.tag !== id) return note;
+        return { ...note, tag: noneTag.id };
+      })
+    );
   };
 
   const getTagByID = (id) => {
@@ -117,6 +137,7 @@ export const NotesProvider = (props) => {
         editNote,
         deleteNote,
         getNoteByID,
+        searchNotes,
         getNotesByTag,
 
         // Tags

@@ -1,5 +1,6 @@
 import Modal from "react-modal";
 import { useForm, Controller } from "react-hook-form";
+import { useSnackbar } from "notistack";
 
 import ColorSelector from "./ColorSelector";
 
@@ -10,10 +11,12 @@ function AddTag({ open, handleCancel, handleAdd }) {
     defaultValues: { title: "", description: "", color: "red" },
   });
 
+  const { enqueueSnackbar } = useSnackbar();
+
   const onSubmit = (data) => {
     const error = handleAdd(data);
     if (error) {
-      alert(error);
+      enqueueSnackbar(error, { variant: "error" });
       return;
     }
 

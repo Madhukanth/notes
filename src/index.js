@@ -1,16 +1,19 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { SnackbarProvider } from "notistack";
+
 import "./index.css";
 import Routes from "./Routes";
 import reportWebVitals from "./reportWebVitals";
-
 import { NotesProvider } from "./contexts/NotesContext";
 
 ReactDOM.render(
   <React.StrictMode>
-    <NotesProvider>
-      <Routes />
-    </NotesProvider>
+    <SnackbarProvider maxSnack={3}>
+      <NotesProvider>
+        <Routes />
+      </NotesProvider>
+    </SnackbarProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
