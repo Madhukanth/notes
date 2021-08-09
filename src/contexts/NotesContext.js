@@ -1,5 +1,33 @@
-import { createContext, useState } from "react";
+import { createContext, useRef, useState } from "react";
 import { v4 } from "uuid";
+import * as localForage from "localforage";
+
+const INITIAL_TAGS = [
+  {
+    title: "Project",
+    id: v4(),
+    color: "red",
+    description: "This tag relates to the projects",
+  },
+  {
+    title: "Business",
+    id: v4(),
+    color: "blue",
+    description: "This tag relates to the business",
+  },
+  {
+    title: "Personal",
+    id: v4(),
+    color: "green",
+    description: "This tag relates to the personals",
+  },
+  {
+    title: "None",
+    id: v4(),
+    color: "gray",
+    description: "This tag relates to none",
+  },
+];
 
 export const NotesContext = createContext({
   // Notes
@@ -17,6 +45,11 @@ export const NotesContext = createContext({
   editTag: () => {},
   deleteTag: () => {},
   getTagByID: () => {},
+
+  // Save Data
+  initialRender: true,
+  saveData: () => {},
+  extractData: () => {},
 });
 
 export const NotesProvider = (props) => {
@@ -64,32 +97,7 @@ export const NotesProvider = (props) => {
   };
 
   // Tags
-  const [tags, setTags] = useState([
-    {
-      title: "Project",
-      id: v4(),
-      color: "red",
-      description: "This tag relates to the projects",
-    },
-    {
-      title: "Business",
-      id: v4(),
-      color: "blue",
-      description: "This tag relates to the business",
-    },
-    {
-      title: "Personal",
-      id: v4(),
-      color: "green",
-      description: "This tag relates to the personals",
-    },
-    {
-      title: "None",
-      id: v4(),
-      color: "gray",
-      description: "This tag relates to none",
-    },
-  ]);
+  const [tags, setTags] = useState(INITIAL_TAGS);
 
   const addTag = (newTag) => {
     const tagAlreadyExist = tags.find(
@@ -128,6 +136,23 @@ export const NotesProvider = (props) => {
     return tags.find((tag) => tag.id === id);
   };
 
+  // Save Data
+  const initialRender = useRef(true);
+
+  const saveData = async () => {
+    await localForage.setItem("notes", notes);
+    await localForage.setItem("tags", tags);
+  };
+
+  const extractData = async () => {
+    const localNotes = await localForage.getItem("notes");
+    const localTags = await localForage.getItem("tags");
+
+    setNotes(localNotes || []);
+    setTags(localTags || INITIAL_TAGS);
+    initialRender.current = false;
+  };
+
   return (
     <NotesContext.Provider
       value={{
@@ -146,6 +171,11 @@ export const NotesProvider = (props) => {
         editTag,
         deleteTag,
         getTagByID,
+
+        // Save Data
+        initialRender: initialRender,
+        saveData,
+        extractData,
       }}
     >
       {props.children}
