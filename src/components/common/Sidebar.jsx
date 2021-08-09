@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 
 import SidebarItem from "./SidebarItem";
 import Divider from "./Divider";
+import { getBg } from "../../utils/colors";
 import DeleteIcon from "../../assets/delete_white.png";
 
 const Sidebar = ({ toggleTagAddModal, tags, handleDelete }) => {
@@ -53,7 +54,9 @@ const Sidebar = ({ toggleTagAddModal, tags, handleDelete }) => {
             active={id === tag.id}
           >
             <div
-              className={`h-3 w-3 border-solid border-white border-2 rounded-full bg-${tag.color}-500`}
+              className={`h-3 w-3 border-solid border-white border-2 rounded-full ${getBg(
+                tag.color
+              )}`}
             />
             <div className="ml-2">{tag.title}</div>
           </SidebarItem>
@@ -67,7 +70,9 @@ const Sidebar = ({ toggleTagAddModal, tags, handleDelete }) => {
           >
             <div className="flex items-center">
               <div
-                className={`h-3 w-3 border-solid border-white border-2 rounded-full bg-${tag.color}-500`}
+                className={`h-3 w-3 border-solid border-white border-2 rounded-full ${getBg(
+                  tag.color
+                )}`}
               />
               <div className="ml-2">{tag.title}</div>
             </div>
